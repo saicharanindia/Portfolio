@@ -1,0 +1,19 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Red Trishul centered and scaled properly -->
+  <g transform="translate(60, 60)">
+    <!-- Main shaft -->
+    <rect x="-2.5" y="5" width="5" height="50" fill="#C41E3A" rx="1.5"/>
+    
+    <!-- Center prong (top) -->
+    <path d="M -10,-30 Q -6,-45 0,-50 Q 6,-45 10,-30 Q 6,-22 0,-20 Q -6,-22 -10,-30" fill="#C41E3A"/>
+    
+    <!-- Left prong -->
+    <path d="M -28,-8 Q -26,-28 -10,-33 Q -3,-28 -6,-12 Q -14,-8 -28,-8" fill="#C41E3A"/>
+    
+    <!-- Right prong -->
+    <path d="M 28,-8 Q 26,-28 10,-33 Q 3,-28 6,-12 Q 14,-8 28,-8" fill="#C41E3A"/>
+    
+    <!-- Base circle -->
+    <circle cx="0" cy="28" r="3.5" fill="#C41E3A"/>
+  </g>
+</svg>
