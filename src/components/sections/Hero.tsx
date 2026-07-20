@@ -18,8 +18,91 @@ const PARTICLES = [
   { x: 28, y: 72, s: 1.5, d: 7,   delay: 2.5, type: 1 },
   { x: 78, y: 85, s: 2,   d: 8,   delay: 1,   type: 2 },
 ];
-const P_COLORS = ["rgba(255,0,60,0.8)", "rgba(255,94,122,0.6)", "rgba(234,234,234,0.4)"];
-const P_GLOW   = ["0 0 8px rgba(255,0,60,0.7)", "0 0 6px rgba(255,94,122,0.5)", "none"];
+const P_COLORS = ["rgba(255,0,60,0.8)", "rgba(255,94,122,0.6)", "rgba(0,255,255,0.35)"];
+const P_GLOW   = ["0 0 8px rgba(255,0,60,0.7)", "0 0 6px rgba(255,94,122,0.5)", "0 0 6px rgba(0,255,255,0.4)"];
+
+/* Y2K: Glitch name — RGB split on a cadence */
+function GlitchHeroName({ text, color, delay }: { text: string; color: "chrome" | "red"; delay: number }) {
+  const [glitching, setGlitching] = useState(false);
+  useEffect(() => {
+    const fire = () => { setGlitching(true); setTimeout(() => setGlitching(false), 500); };
+    const id = setInterval(fire, 6000 + delay * 1000);
+    const t  = setTimeout(fire, 2800 + delay * 600);
+    return () => { clearInterval(id); clearTimeout(t); };
+  }, [delay]);
+
+  const baseStyle: React.CSSProperties = color === "chrome" ? {
+    fontFamily: "'Bebas Neue', Impact, sans-serif",
+    WebkitTextFillColor: "transparent",
+    background: "linear-gradient(135deg,#FFFFFF 0%,#EAEAEA 30%,#C0C0C0 55%,#EAEAEA 75%,#FFFFFF 100%)",
+    backgroundSize: "200% 100%",
+    WebkitBackgroundClip: "text",
+    backgroundClip: "text",
+    animation: "chromeShine 5s linear infinite",
+  } : {
+    fontFamily: "'Bebas Neue', Impact, sans-serif",
+    WebkitTextFillColor: "transparent",
+    background: "linear-gradient(135deg,#FF003C 0%,#FF1744 40%,#FF5E7A 70%,#FF003C 100%)",
+    backgroundSize: "200% 100%",
+    WebkitBackgroundClip: "text",
+    backgroundClip: "text",
+    animation: "chromeShine 4s linear infinite",
+    filter: "drop-shadow(0 0 18px rgba(255,0,60,0.45))",
+  };
+
+  return (
+    <span
+      className={`hero-title leading-none select-none ${glitching ? "warp-glitch" : ""}`}
+      style={baseStyle}
+      aria-label={text}
+    >
+      <CharReveal text={text} delay={color === "chrome" ? 0.25 : 0.45} />
+    </span>
+  );
+}
+
+/* Y2K: Typing cursor for tagline */
+function TypewriterTagline({ text }: { text: string }) {
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
+  useEffect(() => {
+    let i = 0;
+    const t = setTimeout(() => {
+      const id = setInterval(() => {
+        setDisplayed(text.slice(0, ++i));
+        if (i >= text.length) { clearInterval(id); setDone(true); }
+      }, 22);
+      return () => clearInterval(id);
+    }, 1400);
+    return () => clearTimeout(t);
+  }, [text]);
+  return (
+    <span>
+      {displayed}
+      {!done && <span style={{ color: "#FF003C", animation: "blink 1s step-end infinite", fontWeight: 700 }}>█</span>}
+    </span>
+  );
+}
+
+/* Y2K: Hex counter decoration */
+function HexTicker() {
+  const [hex, setHex] = useState("0x00FF003C");
+  useEffect(() => {
+    const id = setInterval(() => {
+      const r = Math.floor(Math.random() * 0xFFFFFF).toString(16).toUpperCase().padStart(6, "0");
+      setHex(`0x${r}`);
+    }, 150);
+    setTimeout(() => clearInterval(id), 2000);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <span style={{
+      fontFamily: "'JetBrains Mono', monospace",
+      fontSize: "9px", color: "rgba(255,0,60,0.4)",
+      letterSpacing: "0.1em",
+    }}>{hex}</span>
+  );
+}
 
 function CharReveal({ text, delay, className }: { text: string; delay: number; className?: string }) {
   return (
@@ -139,14 +222,14 @@ export default function Hero() {
 
           {/* ── LEFT — text ── */}
           <div>
-            {/* Status badge — small, clean */}
+            {/* Status badge — Y2K style */}
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }} className="mb-8">
               <span style={{
                 display: "inline-flex", alignItems: "center", gap: "6px",
                 background: "rgba(255,0,60,0.12)",
                 border: "1px solid rgba(255,0,60,0.3)",
-                borderRadius: "6px",
+                borderRadius: "4px",
                 padding: "4px 10px",
                 fontSize: "10px",
                 fontWeight: 600,
@@ -154,45 +237,32 @@ export default function Hero() {
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 color: "#FF5E7A",
-              }}>
+                position: "relative",
+              }} className="y2k-corners scan-sweep">
                 <motion.span
                   style={{ display: "inline-block", width: "6px", height: "6px", borderRadius: "50%", background: "#FF003C", flexShrink: 0 }}
                   animate={{ opacity: [1, 0.3, 1], boxShadow: ["0 0 4px #FF003C", "0 0 10px #FF003C", "0 0 4px #FF003C"] }}
                   transition={{ duration: 1.4, repeat: Infinity }}
                 />
                 {personal.status}
+                <span style={{ marginLeft: 4 }} className="data-corrupt">_SYS.READY</span>
               </span>
             </motion.div>
 
-            {/* Name */}
+            {/* Name — Y2K glitch */}
             <div className="mb-8 overflow-visible" style={{ perspective: "1200px" }}>
               <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                <h1 className="hero-title leading-none select-none"
-                  style={{
-                    fontFamily: "'Bebas Neue', Impact, sans-serif",
-                    WebkitTextFillColor: "transparent",
-                    background: "linear-gradient(135deg,#FFFFFF 0%,#EAEAEA 30%,#C0C0C0 55%,#EAEAEA 75%,#FFFFFF 100%)",
-                    backgroundSize: "200% 100%",
-                    WebkitBackgroundClip: "text",
-                    backgroundClip: "text",
-                    animation: "chromeShine 5s linear infinite",
-                  }} aria-label={personal.firstName}>
-                  <CharReveal text={personal.firstName.toUpperCase()} delay={0.25} />
-                </h1>
-                <h1 className="hero-title leading-none select-none"
-                  style={{
-                    fontFamily: "'Bebas Neue', Impact, sans-serif",
-                    WebkitTextFillColor: "transparent",
-                    background: "linear-gradient(135deg,#FF003C 0%,#FF1744 40%,#FF5E7A 70%,#FF003C 100%)",
-                    backgroundSize: "200% 100%",
-                    WebkitBackgroundClip: "text",
-                    backgroundClip: "text",
-                    animation: "chromeShine 4s linear infinite",
-                    filter: "drop-shadow(0 0 18px rgba(255,0,60,0.45))",
-                  }} aria-label={personal.lastName}>
-                  <CharReveal text={personal.lastName.toUpperCase()} delay={0.45} />
-                </h1>
+                <GlitchHeroName text={personal.firstName.toUpperCase()} color="chrome" delay={0} />
+                <GlitchHeroName text={personal.lastName.toUpperCase()} color="red" delay={1} />
               </div>
+              {/* Y2K hex ticker below name */}
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.6 }}
+                className="flex items-center gap-3 mt-2">
+                <HexTicker />
+                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", color: "rgba(255,255,255,0.12)", letterSpacing: "0.08em" }}>
+                  ████░░░░ LOADING PORTFOLIO
+                </span>
+              </motion.div>
             </div>
 
             {/* Role */}
@@ -206,12 +276,12 @@ export default function Hero() {
               </span>
             </motion.div>
 
-            {/* Tagline */}
+            {/* Tagline — typewriter Y2K */}
             <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 1.1 }}
-              className="text-base sm:text-lg leading-relaxed mb-6 max-w-lg"
+              className="text-base sm:text-lg leading-relaxed mb-6 max-w-lg blink-cursor"
               style={{ color: "rgba(255,255,255,0.55)", fontWeight: 300 }}>
-              {personal.tagline}
+              <TypewriterTagline text={personal.tagline} />
             </motion.p>
 
             {/* Contact meta */}

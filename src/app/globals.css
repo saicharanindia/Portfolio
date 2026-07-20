@@ -553,3 +553,348 @@ button[class*="fixed"][style*="bottom"] {
     height: 60px !important;
   }
 }
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Y2K / CYBERPUNK ANIMATION PACK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* ── 1. Glitch text — horizontal RGB offset slices ── */
+@keyframes glitchMain {
+  0%,94%,100%  { transform: translate(0); clip-path: none; }
+  95%  { transform: translate(-3px, 1px); clip-path: inset(10% 0 80% 0); }
+  96%  { transform: translate(3px, -1px); clip-path: inset(40% 0 40% 0); }
+  97%  { transform: translate(-2px, 2px); clip-path: inset(70% 0 10% 0); }
+  98%  { transform: translate(0); clip-path: none; }
+}
+@keyframes glitchRed {
+  0%,94%,100%  { transform: translate(0); opacity: 0; }
+  95%  { transform: translate(4px, -2px); opacity: 0.7; }
+  96%  { transform: translate(-4px, 2px); opacity: 0.5; }
+  97%  { transform: translate(2px, 1px);  opacity: 0.6; }
+  98%  { opacity: 0; }
+}
+@keyframes glitchCyan {
+  0%,94%,100%  { transform: translate(0); opacity: 0; }
+  95%  { transform: translate(-4px, 2px); opacity: 0.5; }
+  96%  { transform: translate(4px, -2px); opacity: 0.4; }
+  97%  { transform: translate(-2px,-1px); opacity: 0.55; }
+  98%  { opacity: 0; }
+}
+.glitch-text {
+  position: relative;
+  display: inline-block;
+  animation: glitchMain 6s steps(1) infinite;
+}
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.glitch-text::before {
+  color: #FF003C;
+  animation: glitchRed 6s steps(1) infinite;
+}
+.glitch-text::after {
+  color: #00FFFF;
+  animation: glitchCyan 6s steps(1) infinite;
+}
+
+/* ── 2. CRT scanline flicker overlay ── */
+@keyframes crtFlicker {
+  0%,100% { opacity: 1; }
+  8%       { opacity: 0.97; }
+  11%      { opacity: 0.92; }
+  14%      { opacity: 1; }
+  45%      { opacity: 1; }
+  47%      { opacity: 0.94; }
+  50%      { opacity: 1; }
+  78%      { opacity: 1; }
+  80%      { opacity: 0.96; }
+  83%      { opacity: 1; }
+}
+.crt-flicker {
+  animation: crtFlicker 4s steps(1) infinite;
+}
+
+/* ── 3. Neon border rotate — spinning conic gradient border ── */
+@keyframes neonBorderSpin {
+  from { --border-angle: 0turn; }
+  to   { --border-angle: 1turn; }
+}
+@property --border-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0turn;
+}
+.neon-border-spin {
+  border: 2px solid transparent;
+  background:
+    linear-gradient(#111, #111) padding-box,
+    conic-gradient(from var(--border-angle), #FF003C, #FF5E7A, #00FFFF, #FF003C) border-box;
+  animation: neonBorderSpin 3s linear infinite;
+}
+
+/* ── 4. Static/noise flicker on hover ── */
+@keyframes staticNoise {
+  0%   { background-position: 0 0; }
+  10%  { background-position: -5% -10%; }
+  20%  { background-position: -15% 5%; }
+  30%  { background-position: 7% -25%; }
+  40%  { background-position: 20% 25%; }
+  50%  { background-position: -25% 10%; }
+  60%  { background-position: 15% 5%; }
+  70%  { background-position: 0% 15%; }
+  80%  { background-position: 25% 35%; }
+  90%  { background-position: -10% 10%; }
+  100% { background-position: 0 0; }
+}
+.static-noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
+  background-size: 150px 150px;
+  transition: opacity 0.15s;
+  z-index: 20;
+  border-radius: inherit;
+}
+.static-noise:hover::after {
+  opacity: 1;
+  animation: staticNoise 0.4s steps(1) infinite;
+}
+
+/* ── 5. Data-corruption text flicker ── */
+@keyframes dataCorrupt {
+  0%,90%,100% { opacity: 1; filter: none; }
+  91% { opacity: 0.4; filter: blur(1px) brightness(2); letter-spacing: 0.25em; }
+  92% { opacity: 1; filter: none; letter-spacing: inherit; }
+  93% { opacity: 0.6; filter: blur(0.5px); }
+  94% { opacity: 1; filter: none; }
+}
+.data-corrupt {
+  animation: dataCorrupt 7s steps(1) infinite;
+}
+
+/* ── 6. Neon pulse glow — red and cyan alternating ── */
+@keyframes neonPulse {
+  0%,100% { box-shadow: 0 0 4px #FF003C, 0 0 12px rgba(255,0,60,0.4); border-color: rgba(255,0,60,0.5); }
+  50%     { box-shadow: 0 0 8px #00FFFF, 0 0 24px rgba(0,255,255,0.3); border-color: rgba(0,255,255,0.4); }
+}
+.neon-pulse {
+  animation: neonPulse 2.5s ease-in-out infinite;
+}
+
+/* ── 7. Holographic shimmer — iridescent rainbow sweep ── */
+@keyframes holoShimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.holo-shimmer {
+  background: linear-gradient(
+    105deg,
+    transparent 20%,
+    rgba(255,0,60,0.15) 30%,
+    rgba(0,255,255,0.1) 40%,
+    rgba(255,0,255,0.12) 50%,
+    rgba(0,255,60,0.08) 60%,
+    transparent 70%
+  );
+  background-size: 300% 100%;
+  animation: holoShimmer 4s linear infinite;
+}
+
+/* ── 8. Typewriter blinking cursor ── */
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50%     { opacity: 0; }
+}
+.blink-cursor::after {
+  content: '█';
+  display: inline-block;
+  color: #FF003C;
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+  font-size: 0.85em;
+  vertical-align: middle;
+}
+
+/* ── 9. Corner bracket decoration ── */
+.y2k-corners {
+  position: relative;
+}
+.y2k-corners::before,
+.y2k-corners::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  opacity: 0.7;
+}
+.y2k-corners::before {
+  top: 0; left: 0;
+  border-top: 2px solid #FF003C;
+  border-left: 2px solid #FF003C;
+  animation: cornerPulse 2s ease-in-out infinite;
+}
+.y2k-corners::after {
+  bottom: 0; right: 0;
+  border-bottom: 2px solid #FF003C;
+  border-right: 2px solid #FF003C;
+  animation: cornerPulse 2s ease-in-out infinite 1s;
+}
+@keyframes cornerPulse {
+  0%,100% { opacity: 0.5; width: 10px; height: 10px; }
+  50%     { opacity: 1;   width: 16px; height: 16px; }
+}
+
+/* ── 10. Scanline sweep — moving bright line ── */
+@keyframes scanSweep {
+  0%   { top: -4px; opacity: 0; }
+  5%   { opacity: 0.6; }
+  95%  { opacity: 0.4; }
+  100% { top: 100%; opacity: 0; }
+}
+.scan-sweep {
+  position: relative;
+  overflow: hidden;
+}
+.scan-sweep::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255,0,60,0.8), rgba(0,255,255,0.4), transparent);
+  animation: scanSweep 3s linear infinite;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ── 11. Pixel/glitch border on hover ── */
+@keyframes pixelBorderFlash {
+  0%,100% { outline: none; }
+  25% { outline: 2px solid #FF003C; outline-offset: 2px; }
+  50% { outline: 2px solid #00FFFF; outline-offset: 0px; }
+  75% { outline: 2px solid #FF003C; outline-offset: 1px; }
+}
+.pixel-hover:hover {
+  animation: pixelBorderFlash 0.4s steps(1) infinite;
+}
+
+/* ── 12. Red matrix rain pulse ── */
+@keyframes matrixPulse {
+  0%,100% { text-shadow: 0 0 4px #FF003C, 0 0 8px rgba(255,0,60,0.3); color: #FF5E7A; }
+  33%     { text-shadow: 0 0 10px #FF003C, 0 0 20px rgba(255,0,60,0.6); color: #fff; }
+  66%     { text-shadow: 0 0 6px #FF003C; color: #cc0000; }
+}
+.matrix-pulse {
+  animation: matrixPulse 1.6s ease-in-out infinite;
+}
+
+/* ── 13. Warp/distort scale glitch ── */
+@keyframes warpGlitch {
+  0%,95%,100% { transform: scaleX(1); }
+  96% { transform: scaleX(1.04) skewX(-2deg); }
+  97% { transform: scaleX(0.97) skewX(1deg); }
+  98% { transform: scaleX(1.02); }
+}
+.warp-glitch {
+  display: inline-block;
+  animation: warpGlitch 8s steps(1) infinite;
+}
+
+/* ── 14. Neon text glow red/cyan alternate ── */
+.neon-text-red {
+  color: #FF003C;
+  text-shadow:
+    0 0 4px #FF003C,
+    0 0 10px rgba(255,0,60,0.7),
+    0 0 20px rgba(255,0,60,0.4);
+}
+.neon-text-cyan {
+  color: #00FFFF;
+  text-shadow:
+    0 0 4px #00FFFF,
+    0 0 10px rgba(0,255,255,0.7),
+    0 0 20px rgba(0,255,255,0.3);
+}
+
+/* ── 15. Power-up flicker on entrance ── */
+@keyframes powerUp {
+  0%   { opacity: 0; filter: brightness(4) blur(4px); transform: scale(0.95); }
+  10%  { opacity: 1; filter: brightness(2) blur(1px); }
+  20%  { opacity: 0.4; filter: brightness(3); }
+  30%  { opacity: 1; filter: brightness(1.5); }
+  40%  { opacity: 0.7; }
+  50%  { opacity: 1; filter: none; transform: scale(1); }
+  100% { opacity: 1; filter: none; transform: scale(1); }
+}
+.power-up {
+  animation: powerUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ── 16. Scrolling red ticker border ── */
+@keyframes tickerBorder {
+  from { background-position: 0 0; }
+  to   { background-position: 200px 0; }
+}
+.ticker-border {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(#111, #111) padding-box,
+    repeating-linear-gradient(
+      90deg,
+      #FF003C 0px, #FF003C 8px,
+      transparent 8px, transparent 16px
+    ) border-box;
+  background-size: auto, 200px 100%;
+  animation: tickerBorder 2s linear infinite;
+}
+
+/* ── 17. Stacked section tag Y2K style ── */
+.y2k-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  background: rgba(255,0,60,0.06);
+  border: 1px solid rgba(255,0,60,0.3);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #FF5E7A;
+  position: relative;
+}
+.y2k-tag::before {
+  content: '//';
+  color: rgba(255,0,60,0.4);
+  font-size: 8px;
+}
+
+/* ── 18. Glow card hover — neon lift ── */
+.glow-card-hover {
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1),
+              box-shadow 0.35s cubic-bezier(0.4,0,0.2,1),
+              border-color 0.35s;
+}
+.glow-card-hover:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow:
+    0 0 0 1px rgba(255,0,60,0.5),
+    0 0 20px rgba(255,0,60,0.25),
+    0 0 40px rgba(255,0,60,0.1),
+    0 20px 40px rgba(0,0,0,0.8);
+  border-color: rgba(255,0,60,0.5) !important;
+}
+
+/* ── marquee keyframe (shared) ── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
