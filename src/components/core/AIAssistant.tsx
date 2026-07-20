@@ -357,6 +357,7 @@ export default function AIAssistant() {
           }} />
 
           {/* Icon — always static, perfectly centred */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/trishul.png"
             alt="Elova AI"
@@ -424,6 +425,7 @@ export default function AIAssistant() {
                   border: "1.5px solid rgba(255,0,60,0.4)",
                 }}
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/trishul.png"
                   alt="Elova AI"
@@ -564,6 +566,7 @@ export default function AIAssistant() {
                         border: "1px solid rgba(255,0,60,0.3)",
                       }}
                     >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src="/trishul.png"
                         alt=""
@@ -611,6 +614,7 @@ export default function AIAssistant() {
                       border: "1px solid rgba(255,0,60,0.3)",
                     }}
                   >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src="/trishul.png"
                       alt=""
