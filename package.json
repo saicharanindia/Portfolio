@@ -2,6 +2,9 @@
   "name": "sai-charan-portfolio",
   "version": "1.0.0",
   "private": true,
+  "overrides": {
+    "next": "15.3.4"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
